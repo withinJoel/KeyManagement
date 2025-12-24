@@ -206,7 +206,8 @@ This Worker is intentionally **simple and boring**.
 ---
 
 ## YML file to be placed in your repo
-* Replace this line with your actual `gitlab` repo name: `git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/withinjoel/REPO_NAME.git` 
+* Replace this line with your actual `gitlab` repo name: `git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/withinjoel/REPO_NAME.git`
+* location in your `github` repo `.github/workflows/Backup to Gitlab.yml`
 ```
 name: Backup to GitLab
 
