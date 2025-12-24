@@ -1,3 +1,6 @@
 Repos using this KeyManagement
 * Portfolio
-* Vidora
+* Vidora p
+* Avicii
+* Quiz.ai
+* CodeCracker (new)
