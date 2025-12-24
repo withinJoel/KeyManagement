@@ -206,7 +206,6 @@ This Worker is intentionally **simple and boring**.
 ---
 
 ## YML file to be placed in your repo
-* Replace this line with your actual `gitlab` repo name: `git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/withinjoel/REPO_NAME.git`
 * location in your `github` repo `.github/workflows/Backup to Gitlab.yml`
 ```
 name: Backup to GitLab
@@ -225,6 +224,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Compute repo name (lowercase)
+        run: |
+          REPO_NAME=$(echo "${GITHUB_REPOSITORY#*/}" | tr '[:upper:]' '[:lower:]')
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
 
       - name: Fetch GitLab token from KeyManagement
         run: |
@@ -248,7 +252,10 @@ jobs:
         run: |
           git config --global user.name "GitHub Backup Bot"
           git config --global user.email "bot@example.com"
-          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/withinjoel/portfolio.git
+
+          git remote add gitlab \
+            https://oauth2:${GITLAB_TOKEN}@gitlab.com/withinjoel/${REPO_NAME}.git
+
           git push gitlab main --force
 ```
 ---
