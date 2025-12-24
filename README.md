@@ -213,8 +213,7 @@ name: Backup to GitLab
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -222,48 +221,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2️⃣ Fetch GitLab token from Cloudflare Worker
-      - name: Fetch GitLab token
-        env:
-          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+      - name: Fetch GitLab token from KeyManagement
         run: |
-          set -e
-
           TS=$(date +%s%3N)
-
           TOKEN=$(curl -s -X POST https://keymanagement.joeljollyhere.workers.dev \
             -H "Content-Type: application/json" \
             -d "{
-              \"accessKey\": \"${ACCESS_KEY}\",
-              \"ts\": ${TS}
+              \"accessKey\": \"${{ secrets.ACCESS_KEY }}\",
+              \"key\": \"gitlab\",
+              \"ts\": $TS
             }")
 
-          if [ -z \"$TOKEN\" ]; then
-            echo \"❌ Failed to fetch GitLab token\"
+          if [ -z "$TOKEN" ]; then
+            echo "Failed to fetch GitLab token"
             exit 1
           fi
 
-          echo \"GITLAB_TOKEN=$TOKEN\" >> $GITHUB_ENV
+          echo "GITLAB_TOKEN=$TOKEN" >> $GITHUB_ENV
 
-      # 3️⃣ Configure Git identity
-      - name: Configure Git
+      - name: Push to GitLab
         run: |
           git config --global user.name "GitHub Backup Bot"
           git config --global user.email "bot@example.com"
-
-      # 4️⃣ Push to GitLab (auto namespace + project)
-      - name: Push to GitLab
-        env:
-          GITLAB_TOKEN: ${{ env.GITLAB_TOKEN }}
-        run: |
-          git remote remove gitlab 2>/dev/null || true
-          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/${GITHUB_REPOSITORY}.git
+          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/withinjoel/portfolio.git
           git push gitlab main --force
 ```
 ---
