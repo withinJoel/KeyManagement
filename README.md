@@ -268,6 +268,7 @@ jobs:
 ---
 
 ## Key
+* `URL`: `https://keymanagement.joeljollyhere.workers.dev/?accessKey=<YourAccessKey&key=<KeyName>`
 * `ACCESS_KEY`: `jKJHhfsHAGljgasgLGAG62gkgYh543hUIS671kja6542JHGjha8718b817`
 
 ---
