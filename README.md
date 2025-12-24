@@ -222,7 +222,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
+      # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -244,26 +244,26 @@ jobs:
               \"ts\": ${TS}
             }")
 
-          if [ -z "$TOKEN" ]; then
-            echo "❌ Failed to fetch GitLab token"
+          if [ -z \"$TOKEN\" ]; then
+            echo \"❌ Failed to fetch GitLab token\"
             exit 1
           fi
 
-          echo "GITLAB_TOKEN=$TOKEN" >> $GITHUB_ENV
+          echo \"GITLAB_TOKEN=$TOKEN\" >> $GITHUB_ENV
 
-      # 3️⃣ Configure Git
+      # 3️⃣ Configure Git identity
       - name: Configure Git
         run: |
           git config --global user.name "GitHub Backup Bot"
           git config --global user.email "bot@example.com"
 
-      # 4️⃣ Push to GitLab
+      # 4️⃣ Push to GitLab (auto namespace + project)
       - name: Push to GitLab
         env:
           GITLAB_TOKEN: ${{ env.GITLAB_TOKEN }}
         run: |
           git remote remove gitlab 2>/dev/null || true
-          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/withinjoel/REPO_NAME.git
+          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/${GITHUB_REPOSITORY}.git
           git push gitlab main --force
 ```
 ---
