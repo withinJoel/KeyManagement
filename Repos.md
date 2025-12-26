@@ -1,6 +1,15 @@
 Repos using this KeyManagement
+* Savior
 * Portfolio
-* Vidora p
+* Vidora
 * Avicii
 * Quiz.ai
-* CodeCracker (new)
+* CodeCracker
+* Astrology.ai
+* Moments
+* TradeCraft
+* StarMash
+* Evelina-5
+* ScriptWriter
+* Lyres-Ode
+* WebSmith
